@@ -6,29 +6,23 @@ labels: bug
 assignees: ''
 ---
 
-**Describe the bug**
+# Bug Description
 A clear and concise description of what the bug is.
 
-**To Reproduce**
-Steps to reproduce the behavior:
+# Steps to Reproduce
 1. Go to '...'
 2. Click on '....'
 3. Scroll down to '....'
 4. See error
 
-**Expected behavior**
+# Expected Behavior
 A clear and concise description of what you expected to happen.
 
-**Actual behavior**
+# Actual Behavior
 A clear and concise description of what actually happened.
 
-**Screenshots**
+# Screenshots
 If applicable, add screenshots to help explain your problem.
 
-**Environment (please complete the following information):**
-- OS: [e.g. Windows 10, macOS 12.0]
-- Browser/Version: [e.g. Chrome 96.0]
-- Application Version: [e.g. 1.2.3]
-
-**Additional context**
-Add any other context about the problem here.
+# Environment
+- OS: [e.g. Wi
