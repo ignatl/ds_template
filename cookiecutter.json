@@ -1,4 +1,0 @@
-{
-    "project_name": "{{ cookiecutter._parent_dir_name }}",
-    "project_description": ""
-}
