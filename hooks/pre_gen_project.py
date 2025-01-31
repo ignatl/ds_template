@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 
 # Read the cookiecutter context
-cookiecutter = "{{ cookiecutter }}"
+cookiecutter = {{ cookiecutter }}
 
 # Get the parent directory name
 parent_dir = Path(os.getcwd()).parent.name
