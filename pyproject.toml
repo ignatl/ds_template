@@ -10,14 +10,40 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
+pre-commit = "*"
 python = ">=3.13"
 numpy = "2.2.*"
 pandas = "2.2.*"
 scikit-learn = "1.6.*"
 matplotlib = "3.10.*"
 dvc = "3.59.*"
-jupyterlab = "*"
+jupyterlab = "4.3.*"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "0.9.*"
 
 [build-system]
 requires = ["poetry-core>=2.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "N",  # PEP8 naming convetions
+    "D"  # pydocstyle
+]
+ignore = [
+    "C901",  # too complex
+    "D401"  # imperative mood
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
