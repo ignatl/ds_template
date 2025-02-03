@@ -9,7 +9,7 @@ on:
 jobs:
   lint:
     name: Lint
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     container:
       image: python:3.13-slim
 
@@ -29,7 +29,7 @@ jobs:
 
   test:
     name: Run Tests
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     container:
       image: python:3.13-slim
 
