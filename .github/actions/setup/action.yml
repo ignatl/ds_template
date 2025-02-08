@@ -7,8 +7,8 @@ runs:
     - name: Install Miniconda
       shell: bash
       run: |
-        apt-get update
-        apt-get install -y wget
+        apt-get -qq update
+        apt-get -qq install -y wget
         if [ -d "$HOME/miniconda" ]; then
           echo "Miniconda already installed, updating..."
           wget -q https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
@@ -18,15 +18,13 @@ runs:
           wget -q https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
           bash miniconda.sh -b -p $HOME/miniconda
         fi
-        echo '$HOME/miniconda/bin' >> $GITHUB_PATH
-        echo 'source $HOME/miniconda/etc/profile.d/conda.sh' >> $GITHUB_ENV
+        echo "$HOME/miniconda/bin" >> $GITHUB_PATH
 
     - name: Create and activate environment
       shell: bash
       run: |
         export PATH="$HOME/miniconda/bin:$PATH"
         conda env create -f environment.yml
-        # Add conda environment to PATH directly without activation
         echo "$HOME/miniconda/bin" >> $GITHUB_PATH
         echo "$HOME/miniconda/envs/myenv/bin" >> $GITHUB_PATH
 
