@@ -11,9 +11,12 @@ SHELL ["/bin/bash", "-c"]
 RUN echo "conda activate python_env" >> ~/.bashrc
 
 # Install Poetry
-RUN curl -sSL https://install.python-poetry.org | python3 -
+RUN apt-get update && apt-get install -y curl \
+    && curl -sSL https://install.python-poetry.org | python3 - \
+    && export PATH="/root/.local/bin:$PATH" \
+    && poetry --version
 
-# Add Poetry to PATH
+# Add Poetry to PATH for subsequent commands
 ENV PATH="/root/.local/bin:$PATH"
 
 # Install project dependencies
