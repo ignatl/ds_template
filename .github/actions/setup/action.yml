@@ -9,8 +9,15 @@ runs:
       run: |
         apt-get update
         apt-get install -y wget
-        wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
-        bash miniconda.sh -b -p $HOME/miniconda
+        if [ -d "$HOME/miniconda" ]; then
+          echo "Miniconda already installed, updating..."
+          wget -q https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+          bash miniconda.sh -b -u -p $HOME/miniconda
+        else
+          echo "Installing Miniconda..."
+          wget -q https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+          bash miniconda.sh -b -p $HOME/miniconda
+        fi
         echo '$HOME/miniconda/bin' >> $GITHUB_PATH
         echo 'source $HOME/miniconda/etc/profile.d/conda.sh' >> $GITHUB_ENV
 
