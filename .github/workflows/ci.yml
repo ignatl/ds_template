@@ -15,8 +15,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
-      - name: Print pyproject.toml
-        run: cat pyproject.toml
       - name: Run Ruff
         run: ruff check .
       - name: Run Mypy
