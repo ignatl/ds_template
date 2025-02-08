@@ -23,7 +23,7 @@ runs:
       shell: bash
       run: |
         # Use full path to conda until shell is reloaded
-        ~/miniconda3/bin/conda env create -n python_env python=3.13
+        ~/miniconda3/bin/conda env create -n python_env python=3.13 -y
         # Need to use source to activate in the shell
         source ~/miniconda3/bin/activate python_env
 
