@@ -16,9 +16,9 @@ scikit-learn = "1.6.*"
 matplotlib = "3.10.*"
 dvc = "3.59.*"
 jupyterlab = "4.3.*"
-pytest = "8.3.*"
 
 [tool.poetry.group.dev.dependencies]
+pytest = "8.3.*"
 ruff = "0.9.*"
 mypy = "1.15.*"
 
