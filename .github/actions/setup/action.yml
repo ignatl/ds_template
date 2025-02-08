@@ -13,4 +13,4 @@ runs:
     - name: Install dependencies
       shell: bash
       run: |
-        poetry install --with dev
+        poetry install --with=dev
