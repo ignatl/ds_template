@@ -15,12 +15,17 @@ runs:
         rm ~/miniconda3/miniconda.sh
         echo 'export PATH="$HOME/miniconda3/bin:$PATH"' >> $HOME/.bashrc
         source $HOME/.bashrc
+        # Initialize conda for bash
+        ~/miniconda3/bin/conda init bash
+        source $HOME/.bashrc
 
     - name: Create and activate environment
       shell: bash
       run: |
-        conda env create -n python_env python=3.13
-        conda activate python_env
+        # Use full path to conda until shell is reloaded
+        ~/miniconda3/bin/conda env create -n python_env python=3.13
+        # Need to use source to activate in the shell
+        source ~/miniconda3/bin/activate python_env
 
     - name: Install Poetry
       shell: bash
