@@ -11,18 +11,21 @@ runs:
         apt-get install -y wget
         wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
         bash miniconda.sh -b -p $HOME/miniconda
-        source $HOME/miniconda/bin/activate
-        conda init bash
+        echo '$HOME/miniconda/bin' >> $GITHUB_PATH
+        echo 'source $HOME/miniconda/etc/profile.d/conda.sh' >> $GITHUB_ENV
 
     - name: Create and activate environment
       shell: bash
       run: |
-        source $HOME/miniconda/bin/activate
+        source $HOME/miniconda/etc/profile.d/conda.sh
         conda env create -f environment.yml
-        conda activate myenv  # Replace 'myenv' with your environment name from environment.yml
+        conda activate myenv
+        echo 'source $HOME/miniconda/etc/profile.d/conda.sh && conda activate myenv' >> $GITHUB_ENV
 
     - name: Install Poetry
       shell: bash
       run: |
+        source $HOME/miniconda/etc/profile.d/conda.sh
+        conda activate myenv
         conda install -c conda-forge poetry
         poetry install
