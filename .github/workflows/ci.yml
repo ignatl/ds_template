@@ -18,9 +18,8 @@ jobs:
         docker run app bash -c "
         source ~/.bashrc && \
         conda activate python_env && \
-        poetry run flake8 . && \
-        poetry run black --check . && \
-        poetry run isort --check-only ."
+        ruff check. && \
+        mypy . "
 
   tests:
     runs-on: ubuntu-latest
