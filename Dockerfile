@@ -5,23 +5,21 @@ WORKDIR /app
 # Copy project files
 COPY . .
 
-# Create conda environment
-RUN conda create -n python_env python=3.13 -y
+# Create and activate conda environment
 SHELL ["/bin/bash", "-c"]
-RUN echo "conda activate python_env" >> ~/.bashrc
-
-# Install Poetry
-RUN apt-get update && apt-get install -y curl \
-    && curl -sSL https://install.python-poetry.org | python3 - \
-    && export PATH="/root/.local/bin:$PATH" \
-    && poetry --version
+RUN conda init bash && \
+    source ~/.bashrc && \
+    conda create -n python_env python=3.13 -y && \
+    eval "$(conda shell.bash hook)" && \
+    conda activate python_env && \
+    python -m pip install --user poetry && \
+    export PATH="/root/.local/bin:$PATH" && \
+    poetry --version && \
+    poetry install --no-interaction --no-ansi && \
+    echo "conda activate python_env" >> ~/.bashrc
 
 # Add Poetry to PATH for subsequent commands
 ENV PATH="/root/.local/bin:$PATH"
-
-# Install project dependencies
-RUN poetry config virtualenvs.create false \
-    && poetry install --no-interaction --no-ansi
 
 # Set the default command
 CMD ["/bin/bash"]
