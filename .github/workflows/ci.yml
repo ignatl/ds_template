@@ -18,7 +18,7 @@ jobs:
         docker run app bash -c "
         source ~/.bashrc && \
         conda activate python_env && \
-        ruff check. && \
+        ruff check . && \
         mypy . "
 
   tests:
