@@ -1,0 +1,13 @@
+stages:
+  load_clean:
+    wdir: ..
+    cmd: python ./ds_template/dvc_steps/load_clean.py --input_path data/raw_data/customers.csv
+      --output_path data/cleaned/clean_customers.pqt
+    deps:
+    - data/raw_data/customers.csv
+    - ${load_clean.input_path}
+    params:
+    - dvc/params.yaml:
+      - load_clean
+    outs:
+    - data/cleaned/clean_customers.pqt

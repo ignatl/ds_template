@@ -1,0 +1,24 @@
+schema: '2.0'
+stages:
+  load_clean:
+    cmd: python ./ds_template/dvc_steps/load_clean.py --input_path data/raw_data/customers.csv
+      --output_path data/cleaned/clean_customers.pqt
+    deps:
+    - path: data/raw_data/customers.csv
+      hash: md5
+      md5: 2259cf62d48382a70f2f7c384831bb9e
+      size: 970
+    - path: data/raw_data/customers.csv
+      hash: md5
+      md5: 2259cf62d48382a70f2f7c384831bb9e
+      size: 970
+    params:
+      dvc/params.yaml:
+        load_clean:
+          input_path: data/raw_data/customers.csv
+          output_path: data/cleaned/clean_customers.pqt
+    outs:
+    - path: data/cleaned/clean_customers.pqt
+      hash: md5
+      md5: 44a89f1755d28f184ecb831bb10f1e3a
+      size: 4713

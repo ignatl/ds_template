@@ -1,0 +1,3 @@
+load_clean:
+  input_path: data/raw_data/customers.csv
+  output_path: data/cleaned/clean_customers.pqt
