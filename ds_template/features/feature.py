@@ -9,16 +9,16 @@ class Feature(metaclass=abc.ABCMeta):
     """Feature abstract base class."""
 
     @abc.abstractmethod
-    def fit(self, X: pl.DataFrame, y: pl.DataFrame | None = None) -> "Feature":
+    def fit(self, X: pl.LazyFrame, y: pl.LazyFrame | None = None) -> "Feature":
         """Fit the feature."""
         ...
 
     @abc.abstractmethod
-    def transform(self, X: pl.DataFrame) -> pl.DataFrame:
+    def transform(self, X: pl.LazyFrame) -> pl.LazyFrame:
         """Transform the feature."""
         ...
 
     @abc.abstractmethod
-    def fit_transform(self, X: pl.DataFrame, y: pl.DataFrame | None = None) -> pl.DataFrame:
+    def fit_transform(self, X: pl.LazyFrame, y: pl.LazyFrame | None = None) -> pl.LazyFrame:
         """Fit and transform the feature."""
         ...

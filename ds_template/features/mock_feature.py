@@ -12,14 +12,14 @@ class MockFeature(Feature):
         """Initialize the feature."""
         self.column_name = column_name
 
-    def fit(self, X: pl.DataFrame, y: pl.DataFrame | None = None) -> "MockFeature":
+    def fit(self, X: pl.LazyFrame, y: pl.LazyFrame | None = None) -> "MockFeature":
         """Fit the feature."""
         return self
 
-    def transform(self, X: pl.DataFrame) -> pl.DataFrame:
+    def transform(self, X: pl.LazyFrame) -> pl.LazyFrame:
         """Transform the feature."""
         return X.select(pl.col(self.column_name).str.len_chars())
 
-    def fit_transform(self, X: pl.DataFrame, y: pl.DataFrame | None = None) -> pl.DataFrame:
+    def fit_transform(self, X: pl.LazyFrame, y: pl.LazyFrame | None = None) -> pl.LazyFrame:
         """Fit and transform the feature."""
         return self.fit(X, y).transform(X)

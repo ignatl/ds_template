@@ -10,7 +10,7 @@ from ds_template.config import MAIN_DIR, logger
 from ds_template.features.mock_feature import MockFeature
 
 
-def feature(df: pl.DataFrame, column_name: int) -> tuple[pl.DataFrame, MockFeature]:
+def feature(df: pl.LazyFrame, column_name: str) -> tuple[pl.LazyFrame, MockFeature]:
     """Feature engineering."""
     logger.info(f"Column name: {column_name}")
     mock_feature = MockFeature(column_name)
@@ -43,9 +43,9 @@ def main(input_path: Path, output_path: Path, obj_path: Path, column_name: str) 
 def cli() -> None:
     """Feature engineering."""
     parser = argparse.ArgumentParser()
-    parser.add_argument("--input_path", type=str, required=True)
-    parser.add_argument("--output_path", type=str, required=True)
-    parser.add_argument("--obj_path", type=str, required=True)
+    parser.add_argument("--input_path", type=Path, required=True)
+    parser.add_argument("--output_path", type=Path, required=True)
+    parser.add_argument("--obj_path", type=Path, required=True)
     parser.add_argument("--column_name", type=str, required=True)
     args = parser.parse_args()
 

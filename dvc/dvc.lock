@@ -10,8 +10,8 @@ stages:
       size: 970
     - path: ds_template/dvc_steps/load_clean.py
       hash: md5
-      md5: 8fa68a500b3ddb89dad8dd2576ce1bd9
-      size: 1044
+      md5: acea192d7aed9e82bd01f14b7f3791f9
+      size: 1073
     params:
       dvc/params.yaml:
         load_clean:
@@ -55,8 +55,8 @@ stages:
       size: 4713
     - path: ds_template/dvc_steps/featurize.py
       hash: md5
-      md5: bad215fa6293cc139b21ce58c4b3652f
-      size: 1849
+      md5: 990b4d4497e19c2f8a020a59390a47e5
+      size: 1852
     - path: ds_template/features/mock_feature.py
       hash: md5
       md5: 58d4c016a48f29586e086dd16dc64c44

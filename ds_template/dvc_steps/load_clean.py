@@ -3,18 +3,19 @@
 """Load and clean data."""
 
 import argparse
+from pathlib import Path
 
 import polars as pl
 
 from ds_template.config import MAIN_DIR, logger
 
 
-def load_clean(df: pl.DataFrame) -> pl.DataFrame:
+def load_clean(df: pl.LazyFrame) -> pl.LazyFrame:
     """Load and clean data."""
     return df
 
 
-def main(input_path: str, output_path: str) -> None:
+def main(input_path: Path, output_path: Path) -> None:
     """Load and clean data."""
     input_df = pl.scan_csv(MAIN_DIR / input_path)
     logger.info(f"Loaded data from {input_path} and cleaned it (no)")
@@ -30,8 +31,8 @@ def main(input_path: str, output_path: str) -> None:
 def cli() -> None:
     """CLI for loading and cleaning data."""
     parser = argparse.ArgumentParser()
-    parser.add_argument("--input_path", type=str, required=True)
-    parser.add_argument("--output_path", type=str, required=True)
+    parser.add_argument("--input_path", type=Path, required=True)
+    parser.add_argument("--output_path", type=Path, required=True)
     args = parser.parse_args()
 
     main(args.input_path, args.output_path)
