@@ -1,13 +1,25 @@
 stages:
   load_clean:
     wdir: ..
-    cmd: python ./ds_template/dvc_steps/load_clean.py --input_path data/raw_data/customers.csv
-      --output_path data/cleaned/clean_customers.pqt
+    cmd: python ds_template/dvc_steps/load_clean.py --input_path ${load_clean.input_path}
+      --output_path ${load_clean.output_path}
     deps:
-    - data/raw_data/customers.csv
+    - ds_template/dvc_steps/load_clean.py
     - ${load_clean.input_path}
     params:
     - dvc/params.yaml:
       - load_clean
     outs:
-    - data/cleaned/clean_customers.pqt
+    - ${load_clean.output_path}
+  feature:
+    wdir: ..
+    cmd: python ds_template/dvc_steps/feature.py --column_name ${feature.column_name}
+      --input_path ${load_clean.output_path} --output_path ${feature.output_path}
+    deps:
+    - ds_template/dvc_steps/feature.py
+    - ${load_clean.output_path}
+    params:
+    - dvc/params.yaml:
+      - feature
+    outs:
+    - ${feature.output_path}

@@ -1,17 +1,17 @@
 schema: '2.0'
 stages:
   load_clean:
-    cmd: python ./ds_template/dvc_steps/load_clean.py --input_path data/raw_data/customers.csv
+    cmd: python ds_template/dvc_steps/load_clean.py --input_path data/raw_data/customers.csv
       --output_path data/cleaned/clean_customers.pqt
     deps:
     - path: data/raw_data/customers.csv
       hash: md5
       md5: 2259cf62d48382a70f2f7c384831bb9e
       size: 970
-    - path: data/raw_data/customers.csv
+    - path: ds_template/dvc_steps/load_clean.py
       hash: md5
-      md5: 2259cf62d48382a70f2f7c384831bb9e
-      size: 970
+      md5: 8fa68a500b3ddb89dad8dd2576ce1bd9
+      size: 1044
     params:
       dvc/params.yaml:
         load_clean:
@@ -22,3 +22,25 @@ stages:
       hash: md5
       md5: 44a89f1755d28f184ecb831bb10f1e3a
       size: 4713
+  feature:
+    cmd: python ds_template/dvc_steps/feature.py --column_name first_name --input_path
+      data/cleaned/clean_customers.pqt --output_path data/features/customers_feature.pqt
+    deps:
+    - path: data/cleaned/clean_customers.pqt
+      hash: md5
+      md5: 44a89f1755d28f184ecb831bb10f1e3a
+      size: 4713
+    - path: ds_template/dvc_steps/feature.py
+      hash: md5
+      md5: 2ceb74fab0e3e99a92140b2a8ce7d152
+      size: 1291
+    params:
+      dvc/params.yaml:
+        feature:
+          column_name: first_name
+          output_path: data/features/customers_feature.pqt
+    outs:
+    - path: data/features/customers_feature.pqt
+      hash: md5
+      md5: 30ca8396d1c3215eaf9871ad1a9c56ed
+      size: 499

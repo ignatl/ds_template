@@ -1,3 +1,7 @@
 load_clean:
   input_path: data/raw_data/customers.csv
   output_path: data/cleaned/clean_customers.pqt
+
+feature:
+  column_name: first_name
+  output_path: data/features/customers_feature.pqt
