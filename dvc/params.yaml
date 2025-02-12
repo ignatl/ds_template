@@ -5,3 +5,4 @@ load_clean:
 feature:
   column_name: first_name
   output_path: data/features/customers_feature.pqt
+  obj_path: data/obj/customers_feature.pkl

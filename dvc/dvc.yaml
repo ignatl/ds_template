@@ -11,15 +11,18 @@ stages:
       - load_clean
     outs:
     - ${load_clean.output_path}
-  feature:
+  featurize:
     wdir: ..
-    cmd: python ds_template/dvc_steps/feature.py --column_name ${feature.column_name}
+    cmd: python ds_template/dvc_steps/featurize.py --column_name ${feature.column_name}
       --input_path ${load_clean.output_path} --output_path ${feature.output_path}
+      --obj_path ${feature.obj_path}
     deps:
-    - ds_template/dvc_steps/feature.py
+    - ds_template/dvc_steps/featurize.py
     - ${load_clean.output_path}
+    - ds_template/features/mock_feature.py
     params:
     - dvc/params.yaml:
       - feature
     outs:
     - ${feature.output_path}
+    - ${feature.obj_path}

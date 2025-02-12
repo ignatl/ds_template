@@ -44,3 +44,35 @@ stages:
       hash: md5
       md5: 30ca8396d1c3215eaf9871ad1a9c56ed
       size: 499
+  featurize:
+    cmd: python ds_template/dvc_steps/featurize.py --column_name first_name --input_path
+      data/cleaned/clean_customers.pqt --output_path data/features/customers_feature.pqt
+      --obj_path data/obj/customers_feature.pkl
+    deps:
+    - path: data/cleaned/clean_customers.pqt
+      hash: md5
+      md5: 44a89f1755d28f184ecb831bb10f1e3a
+      size: 4713
+    - path: ds_template/dvc_steps/featurize.py
+      hash: md5
+      md5: bad215fa6293cc139b21ce58c4b3652f
+      size: 1849
+    - path: ds_template/features/mock_feature.py
+      hash: md5
+      md5: 58d4c016a48f29586e086dd16dc64c44
+      size: 745
+    params:
+      dvc/params.yaml:
+        feature:
+          column_name: first_name
+          output_path: data/features/customers_feature.pqt
+          obj_path: data/obj/customers_feature.pkl
+    outs:
+    - path: data/features/customers_feature.pqt
+      hash: md5
+      md5: 1c8a5b8e6caea1760bf71d0b04317454
+      size: 524
+    - path: data/obj/customers_feature.pkl
+      hash: md5
+      md5: dd95b115e75ecca089876f72a7ea794c
+      size: 98
