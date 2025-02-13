@@ -10,7 +10,7 @@ stages:
       size: 970
     - path: ds_template/dvc_steps/load_clean.py
       hash: md5
-      md5: acea192d7aed9e82bd01f14b7f3791f9
+      md5: 6085d51f387b57f92f00d96853a5f3f4
       size: 1073
     params:
       dvc/params.yaml:
@@ -55,12 +55,12 @@ stages:
       size: 4713
     - path: ds_template/dvc_steps/featurize.py
       hash: md5
-      md5: 990b4d4497e19c2f8a020a59390a47e5
+      md5: c2f642fef2c9ffb27c50feccc97409ee
       size: 1852
     - path: ds_template/features/mock_feature.py
       hash: md5
-      md5: 58d4c016a48f29586e086dd16dc64c44
-      size: 745
+      md5: 330e961ebcdff0f3cc8dd78508dff10d
+      size: 585
     params:
       dvc/params.yaml:
         feature:
@@ -70,9 +70,49 @@ stages:
     outs:
     - path: data/features/customers_feature.pqt
       hash: md5
-      md5: 1c8a5b8e6caea1760bf71d0b04317454
-      size: 524
+      md5: 50e6ec0af42435a83d33c165b2545c97
+      size: 534
     - path: data/obj/customers_feature.pkl
       hash: md5
       md5: dd95b115e75ecca089876f72a7ea794c
       size: 98
+  train_model:
+    cmd: python ds_template/dvc_steps/train_model.py --feature-path data/features/customers_feature.pqt
+      --data-path data/cleaned/clean_customers.pqt --output-path data/predictions/predictions.pqt
+      --model-path data/obj/constant_model.pkl --constant 42.0
+    deps:
+    - path: data/cleaned/clean_customers.pqt
+      hash: md5
+      md5: 44a89f1755d28f184ecb831bb10f1e3a
+      size: 4713
+    - path: data/features/customers_feature.pqt
+      hash: md5
+      md5: 50e6ec0af42435a83d33c165b2545c97
+      size: 534
+    - path: data/obj/customers_feature.pkl
+      hash: md5
+      md5: dd95b115e75ecca089876f72a7ea794c
+      size: 98
+    - path: ds_template/dvc_steps/train_model.py
+      hash: md5
+      md5: a15fdffa0f4cd9fe00af7b0b9d18fe4a
+      size: 1660
+    - path: ds_template/models/constant_model.py
+      hash: md5
+      md5: 8e3c720271dcc9cd9d4effc2067f1276
+      size: 613
+    params:
+      dvc/params.yaml:
+        train_model:
+          output_path: data/predictions/predictions.pqt
+          model_path: data/obj/constant_model.pkl
+          constant: 42.0
+    outs:
+    - path: data/obj/constant_model.pkl
+      hash: md5
+      md5: 4239ee243b868e68371e00e7f9264500
+      size: 93
+    - path: data/predictions/predictions.pqt
+      hash: md5
+      md5: b19140cf936a631e5556d64d722ef612
+      size: 507

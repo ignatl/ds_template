@@ -26,3 +26,20 @@ stages:
     outs:
     - ${feature.output_path}
     - ${feature.obj_path}
+  train_model:
+    wdir: ..
+    cmd: python ds_template/dvc_steps/train_model.py --feature-path ${feature.output_path}
+      --data-path ${load_clean.output_path} --output-path ${train_model.output_path}
+      --model-path ${train_model.model_path} --constant ${train_model.constant}
+    deps:
+    - ds_template/dvc_steps/train_model.py
+    - ds_template/models/constant_model.py
+    - ${feature.output_path}
+    - ${load_clean.output_path}
+    - ${feature.obj_path}
+    params:
+    - dvc/params.yaml:
+      - train_model
+    outs:
+    - ${train_model.output_path}
+    - ${train_model.model_path}

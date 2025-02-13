@@ -18,7 +18,6 @@ class Feature(metaclass=abc.ABCMeta):
         """Transform the feature."""
         ...
 
-    @abc.abstractmethod
     def fit_transform(self, X: pl.LazyFrame, y: pl.LazyFrame | None = None) -> pl.LazyFrame:
         """Fit and transform the feature."""
-        ...
+        return self.fit(X, y).transform(X)

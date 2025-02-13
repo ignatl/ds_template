@@ -10,27 +10,27 @@ from ds_template.config import MAIN_DIR, logger
 from ds_template.features.mock_feature import MockFeature
 
 
-def feature(df: pl.LazyFrame, column_name: str) -> tuple[pl.LazyFrame, MockFeature]:
+def feature(lf: pl.LazyFrame, column_name: str) -> tuple[pl.LazyFrame, MockFeature]:
     """Feature engineering."""
     logger.info(f"Column name: {column_name}")
     mock_feature = MockFeature(column_name)
-    df = mock_feature.fit_transform(df)
-    return df, mock_feature
+    lf = mock_feature.fit_transform(lf)
+    return lf, mock_feature
 
 
 def main(input_path: Path, output_path: Path, obj_path: Path, column_name: str) -> None:
     """Feature engineering."""
     full_input_path = MAIN_DIR / input_path
-    input_df = pl.scan_parquet(full_input_path)
+    input_lf = pl.scan_parquet(full_input_path)
     logger.info(f"Loaded data from {full_input_path}")
 
     logger.info("Feature engineering...")
-    output_df, mock_feature = feature(input_df, column_name)
+    output_lf, mock_feature = feature(input_lf, column_name)
     logger.info("Feature engineering complete.")
 
     full_output_path = MAIN_DIR / output_path
     full_output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_df.collect().write_parquet(full_output_path)
+    output_lf.collect().write_parquet(full_output_path)
     logger.info(f"Saved data to {output_path}")
 
     full_obj_path = MAIN_DIR / obj_path

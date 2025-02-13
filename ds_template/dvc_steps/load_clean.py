@@ -10,21 +10,21 @@ import polars as pl
 from ds_template.config import MAIN_DIR, logger
 
 
-def load_clean(df: pl.LazyFrame) -> pl.LazyFrame:
+def load_clean(lf: pl.LazyFrame) -> pl.LazyFrame:
     """Load and clean data."""
-    return df
+    return lf
 
 
 def main(input_path: Path, output_path: Path) -> None:
     """Load and clean data."""
-    input_df = pl.scan_csv(MAIN_DIR / input_path)
+    input_lf = pl.scan_csv(MAIN_DIR / input_path)
     logger.info(f"Loaded data from {input_path} and cleaned it (no)")
 
-    output_df = load_clean(input_df)
+    output_lf = load_clean(input_lf)
 
     full_output_path = MAIN_DIR / output_path
     full_output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_df.collect().write_parquet(full_output_path)
+    output_lf.collect().write_parquet(full_output_path)
     logger.info(f"Saved data to {output_path}")
 
 

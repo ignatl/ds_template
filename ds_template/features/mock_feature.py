@@ -18,8 +18,4 @@ class MockFeature(Feature):
 
     def transform(self, X: pl.LazyFrame) -> pl.LazyFrame:
         """Transform the feature."""
-        return X.select(pl.col(self.column_name).str.len_chars())
-
-    def fit_transform(self, X: pl.LazyFrame, y: pl.LazyFrame | None = None) -> pl.LazyFrame:
-        """Fit and transform the feature."""
-        return self.fit(X, y).transform(X)
+        return X.select(pl.col(self.column_name).str.len_chars().alias("fake_feature"))

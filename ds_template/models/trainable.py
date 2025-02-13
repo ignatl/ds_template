@@ -9,16 +9,15 @@ class Trainable(metaclass=abc.ABCMeta):
     """Trainable abstract base class."""
 
     @abc.abstractmethod
-    def fit(self, X: pl.DataFrame, y: pl.DataFrame | None = None) -> "Trainable":
+    def fit(self, X: pl.LazyFrame, y: pl.LazyFrame | None = None) -> "Trainable":
         """Fit the model."""
         ...
 
     @abc.abstractmethod
-    def predict(self, X: pl.DataFrame) -> pl.DataFrame:
+    def predict(self, X: pl.LazyFrame) -> pl.LazyFrame:
         """Predict the model."""
         ...
 
-    @abc.abstractmethod
-    def fit_predict(self, X: pl.DataFrame, y: pl.DataFrame | None = None) -> pl.DataFrame:
+    def fit_predict(self, X: pl.LazyFrame, y: pl.LazyFrame | None = None) -> pl.LazyFrame:
         """Fit and predict the model."""
-        ...
+        return self.fit(X, y).predict(X)

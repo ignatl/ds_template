@@ -6,3 +6,8 @@ feature:
   column_name: first_name
   output_path: data/features/customers_feature.pqt
   obj_path: data/obj/customers_feature.pkl
+
+train_model:
+  output_path: data/predictions/predictions.pqt
+  model_path: data/obj/constant_model.pkl
+  constant: 42.0
