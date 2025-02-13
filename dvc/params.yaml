@@ -9,5 +9,11 @@ feature:
 
 train_model:
   output_path: data/predictions/predictions.pqt
-  model_path: data/obj/constant_model.pkl
+  obj_path: data/obj/constant_model.pkl
   constant: 42.0
+
+inference:
+  inference_data_path: data/raw_data/test_data.csv
+  y_data_path: data/raw_data/y_data.csv
+  output_path: data/inference/inference.pqt
+  obj_path: data/obj/inference.pkl
