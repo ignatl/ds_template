@@ -19,4 +19,4 @@ class ConstantModel(Trainable):
     def predict(self, X: pl.LazyFrame) -> pl.LazyFrame:
         """Predict the model."""
         len_x = X.select(pl.len()).collect().item()
-        return pl.LazyFrame({"prediction": [self.constant] * len_x})
+        return pl.LazyFrame({"target": [self.constant] * len_x})

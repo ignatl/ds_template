@@ -45,18 +45,18 @@ stages:
       md5: 30ca8396d1c3215eaf9871ad1a9c56ed
       size: 499
   featurize:
-    cmd: python ds_template/dvc_steps/featurize.py --column_name first_name --input_path
-      data/cleaned/clean_customers.pqt --output_path data/features/customers_feature.pqt
-      --obj_path data/obj/customers_feature.pkl
+    cmd: python ds_template/dvc_steps/featurize.py --column_name first_name --input_dir
+      data/split --output_dir data/features/mock_feature --obj_path data/obj/mock_feature.pkl
     deps:
-    - path: data/cleaned/clean_customers.pqt
+    - path: data/split
       hash: md5
-      md5: 44a89f1755d28f184ecb831bb10f1e3a
-      size: 4713
+      md5: 7d51a712984ffa481e3aa23bc92a3acc.dir
+      size: 24156
+      nfiles: 6
     - path: ds_template/dvc_steps/featurize.py
       hash: md5
-      md5: c2f642fef2c9ffb27c50feccc97409ee
-      size: 1852
+      md5: d6dd3cfe509a13231269d892c62add6f
+      size: 2057
     - path: ds_template/features/mock_feature.py
       hash: md5
       md5: 330e961ebcdff0f3cc8dd78508dff10d
@@ -65,46 +65,44 @@ stages:
       dvc/params.yaml:
         feature:
           column_name: first_name
-          output_path: data/features/customers_feature.pqt
-          obj_path: data/obj/customers_feature.pkl
+          output_dir: data/features/mock_feature
+          obj_path: data/obj/mock_feature.pkl
     outs:
-    - path: data/features/customers_feature.pqt
+    - path: data/features/mock_feature
       hash: md5
-      md5: 50e6ec0af42435a83d33c165b2545c97
-      size: 534
-    - path: data/obj/customers_feature.pkl
+      md5: 0c0d87c42bae8294d628f74402b04fc4.dir
+      size: 2279
+      nfiles: 3
+    - path: data/obj/mock_feature.pkl
       hash: md5
       md5: dd95b115e75ecca089876f72a7ea794c
       size: 98
   train_model:
-    cmd: python ds_template/dvc_steps/train_model.py --feature-path data/features/customers_feature.pqt
-      --data-path data/cleaned/clean_customers.pqt --output-path data/predictions/predictions.pqt
-      --model-path data/obj/constant_model.pkl --constant 42.0
+    cmd: python ds_template/dvc_steps/train_model.py --feature-path data/features/mock_feature
+      --data-dir data/split --output-dir data/predictions --model-path data/obj/constant_model.pkl
+      --constant 42.0
     deps:
-    - path: data/cleaned/clean_customers.pqt
-      hash: md5
-      md5: 44a89f1755d28f184ecb831bb10f1e3a
-      size: 4713
-    - path: data/features/customers_feature.pqt
-      hash: md5
-      md5: 50e6ec0af42435a83d33c165b2545c97
-      size: 534
-    - path: data/obj/customers_feature.pkl
+    - path: data/obj/mock_feature.pkl
       hash: md5
       md5: dd95b115e75ecca089876f72a7ea794c
       size: 98
+    - path: data/split
+      hash: md5
+      md5: 7d51a712984ffa481e3aa23bc92a3acc.dir
+      size: 24156
+      nfiles: 6
     - path: ds_template/dvc_steps/train_model.py
       hash: md5
-      md5: a15fdffa0f4cd9fe00af7b0b9d18fe4a
-      size: 1660
+      md5: 54e31d5f5d6a61a0c6b1b07b5ea05ffa
+      size: 2104
     - path: ds_template/models/constant_model.py
       hash: md5
-      md5: 8e3c720271dcc9cd9d4effc2067f1276
-      size: 613
+      md5: 938b493dbbe4e6744abae58ed569b63c
+      size: 609
     params:
       dvc/params.yaml:
         train_model:
-          output_path: data/predictions/predictions.pqt
+          output_dir: data/predictions
           obj_path: data/obj/constant_model.pkl
           constant: 42.0
     outs:
@@ -112,25 +110,22 @@ stages:
       hash: md5
       md5: 4239ee243b868e68371e00e7f9264500
       size: 93
-    - path: data/predictions/predictions.pqt
+    - path: data/predictions
       hash: md5
-      md5: b19140cf936a631e5556d64d722ef612
-      size: 507
+      md5: d25e72cbe597feb8934f0ad72b6f88a2.dir
+      size: 2172
+      nfiles: 3
   inference:
-    cmd: python ds_template/dvc_steps/do_inference.py --train_data_path data/cleaned/clean_customers.pqt
-      --y_data_path data/raw_data/y_data.csv --inference_data_path data/raw_data/test_data.csv
-      --feature_path data/obj/customers_feature.pkl --model_path data/obj/constant_model.pkl
-      --output_path data/inference/inference.pqt --inference_path data/obj/inference.pkl
+    cmd: python ds_template/dvc_steps/do_inference.py --train_data_dir data/split
+      --train_preds_path data/predictions --inference_data_path data/raw_data/test_data.csv
+      --feature_path data/obj/mock_feature.pkl --model_path data/obj/constant_model.pkl
+      --output_path data/inference/inference.parquet --inference_path data/obj/inference.pkl
     deps:
-    - path: data/cleaned/clean_customers.pqt
-      hash: md5
-      md5: 44a89f1755d28f184ecb831bb10f1e3a
-      size: 4713
     - path: data/obj/constant_model.pkl
       hash: md5
       md5: 4239ee243b868e68371e00e7f9264500
       size: 93
-    - path: data/obj/customers_feature.pkl
+    - path: data/obj/mock_feature.pkl
       hash: md5
       md5: dd95b115e75ecca089876f72a7ea794c
       size: 98
@@ -138,14 +133,15 @@ stages:
       hash: md5
       md5: 2259cf62d48382a70f2f7c384831bb9e
       size: 970
-    - path: data/raw_data/y_data.csv
+    - path: data/split
       hash: md5
-      md5: 09ff75ba9f3523210b4f3fb989d4e6cf
-      size: 60
+      md5: 7d51a712984ffa481e3aa23bc92a3acc.dir
+      size: 24156
+      nfiles: 6
     - path: ds_template/dvc_steps/do_inference.py
       hash: md5
-      md5: bf883b49368ac196953f33f925899f99
-      size: 1962
+      md5: c1ec25f18e4a02a2bb2ea52c206960ea
+      size: 2343
     - path: ds_template/features/mock_feature.py
       hash: md5
       md5: 330e961ebcdff0f3cc8dd78508dff10d
@@ -156,21 +152,43 @@ stages:
       size: 587
     - path: ds_template/models/constant_model.py
       hash: md5
-      md5: 8e3c720271dcc9cd9d4effc2067f1276
-      size: 613
+      md5: 938b493dbbe4e6744abae58ed569b63c
+      size: 609
     params:
       dvc/params.yaml:
         inference:
           inference_data_path: data/raw_data/test_data.csv
-          y_data_path: data/raw_data/y_data.csv
-          output_path: data/inference/inference.pqt
+          output_path: data/inference/inference.parquet
           obj_path: data/obj/inference.pkl
     outs:
-    - path: data/inference/inference.pqt
+    - path: data/inference/inference.parquet
       hash: md5
-      md5: b19140cf936a631e5556d64d722ef612
-      size: 507
+      md5: bf89d267be673dc98130f0b5492f4b41
+      size: 736
     - path: data/obj/inference.pkl
       hash: md5
       md5: 3436e81b5a8451eda0096140ce0a1d16
       size: 253
+  split:
+    cmd: python ds_template/dvc_steps/split.py --input_path data/raw_data/customers.csv
+      --output_dir data/split
+    deps:
+    - path: data/raw_data/customers.csv
+      hash: md5
+      md5: 7ec4ea23d390adf35ba70ed449389ab9
+      size: 1027
+    - path: ds_template/dvc_steps/split.py
+      hash: md5
+      md5: 9e10175bb2ef18a619e9f52cadf30840
+      size: 1602
+    params:
+      dvc/params.yaml:
+        split:
+          input_path: data/raw_data/customers.csv
+          output_dir: data/split
+    outs:
+    - path: data/split
+      hash: md5
+      md5: 7d51a712984ffa481e3aa23bc92a3acc.dir
+      size: 24156
+      nfiles: 6

@@ -1,52 +1,51 @@
 stages:
-  load_clean:
+  split:
     wdir: ..
-    cmd: python ds_template/dvc_steps/load_clean.py --input_path ${load_clean.input_path}
-      --output_path ${load_clean.output_path}
+    cmd: python ds_template/dvc_steps/split.py --input_path ${split.input_path}
+      --output_dir ${split.output_dir}
     deps:
-    - ds_template/dvc_steps/load_clean.py
-    - ${load_clean.input_path}
+    - ds_template/dvc_steps/split.py
+    - ${split.input_path}
     params:
     - dvc/params.yaml:
-      - load_clean
+      - split
     outs:
-    - ${load_clean.output_path}
+    - ${split.output_dir}
   featurize:
     wdir: ..
     cmd: python ds_template/dvc_steps/featurize.py --column_name ${feature.column_name}
-      --input_path ${load_clean.output_path} --output_path ${feature.output_path}
+      --input_dir ${split.output_dir} --output_dir ${feature.output_dir}
       --obj_path ${feature.obj_path}
     deps:
     - ds_template/dvc_steps/featurize.py
-    - ${load_clean.output_path}
+    - ${split.output_dir}
     - ds_template/features/mock_feature.py
     params:
     - dvc/params.yaml:
       - feature
     outs:
-    - ${feature.output_path}
+    - ${feature.output_dir}
     - ${feature.obj_path}
   train_model:
     wdir: ..
-    cmd: python ds_template/dvc_steps/train_model.py --feature-path ${feature.output_path}
-      --data-path ${load_clean.output_path} --output-path ${train_model.output_path}
+    cmd: python ds_template/dvc_steps/train_model.py --feature-path ${feature.output_dir}
+      --data-dir ${split.output_dir} --output-dir ${train_model.output_dir}
       --model-path ${train_model.obj_path} --constant ${train_model.constant}
     deps:
     - ds_template/dvc_steps/train_model.py
     - ds_template/models/constant_model.py
-    - ${feature.output_path}
-    - ${load_clean.output_path}
     - ${feature.obj_path}
+    - ${split.output_dir}
     params:
     - dvc/params.yaml:
       - train_model
     outs:
-    - ${train_model.output_path}
+    - ${train_model.output_dir}
     - ${train_model.obj_path}
   inference:
     wdir: ..
-    cmd: python ds_template/dvc_steps/do_inference.py --train_data_path ${load_clean.output_path}
-      --y_data_path ${inference.y_data_path} --inference_data_path ${inference.inference_data_path}
+    cmd: python ds_template/dvc_steps/do_inference.py --train_data_dir ${split.output_dir}
+      --train_preds_path ${train_model.output_dir} --inference_data_path ${inference.inference_data_path}
       --feature_path ${feature.obj_path} --model_path ${train_model.obj_path}
       --output_path ${inference.output_path} --inference_path ${inference.obj_path}
     deps:
@@ -54,9 +53,8 @@ stages:
     - ds_template/inference/inference.py
     - ds_template/features/mock_feature.py
     - ds_template/models/constant_model.py
-    - ${inference.y_data_path}
     - ${inference.inference_data_path}
-    - ${load_clean.output_path}
+    - ${split.output_dir}
     - ${feature.obj_path}
     - ${train_model.obj_path}
     params:
