@@ -140,7 +140,7 @@ stages:
       nfiles: 6
     - path: ds_template/dvc_steps/do_inference.py
       hash: md5
-      md5: c1ec25f18e4a02a2bb2ea52c206960ea
+      md5: 907002ab7b57f51e7e9cfdf89c5e49bd
       size: 2343
     - path: ds_template/features/mock_feature.py
       hash: md5
