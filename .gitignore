@@ -172,3 +172,5 @@ cython_debug/
 
 # Custom
 Untitled.ipynb
+gcp_creds.json
+temp.py
