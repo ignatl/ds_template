@@ -36,3 +36,12 @@ repos:
     stages:
     - post-checkout
     always_run: true
+
+- repo: local
+  hooks:
+    - id: update-dvc-dag
+      name: Update DVC DAG
+      entry: python scripts/generate_dag.py
+      language: python
+      pass_filenames: false
+      always_run: true

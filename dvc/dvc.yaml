@@ -63,4 +63,16 @@ stages:
     outs:
     - ${inference.output_path}
     - ${inference.obj_path}
-  
+  evaluate:
+    wdir: ..
+    cmd: python ds_template/dvc_steps/evaluate.py --predictions_dir ${train_model.output_dir}
+      --target_dir ${split.output_dir} --metrics_path ${evaluate.metrics_path}
+    deps:
+    - ds_template/dvc_steps/evaluate.py
+    - ${train_model.output_dir}
+    - ${split.output_dir}
+    params:
+    - dvc/params.yaml:
+      - evaluate
+    outs:
+    - ${evaluate.metrics_path}

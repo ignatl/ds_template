@@ -192,3 +192,30 @@ stages:
       md5: 7d51a712984ffa481e3aa23bc92a3acc.dir
       size: 24156
       nfiles: 6
+  evaluate:
+    cmd: python ds_template/dvc_steps/evaluate.py --predictions_dir data/predictions
+      --target_dir data/split --metrics_path data/evaluate/metrics.csv
+    deps:
+    - path: data/predictions
+      hash: md5
+      md5: d25e72cbe597feb8934f0ad72b6f88a2.dir
+      size: 2172
+      nfiles: 3
+    - path: data/split
+      hash: md5
+      md5: 7d51a712984ffa481e3aa23bc92a3acc.dir
+      size: 24156
+      nfiles: 6
+    - path: ds_template/dvc_steps/evaluate.py
+      hash: md5
+      md5: 9f36baff7021078dba43734e978e8c7c
+      size: 2074
+    params:
+      dvc/params.yaml:
+        evaluate:
+          metrics_path: data/evaluate/metrics.csv
+    outs:
+    - path: data/evaluate/metrics.csv
+      hash: md5
+      md5: 13218a8d54536ee0ee7558eafd509dfb
+      size: 83
