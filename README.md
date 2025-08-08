@@ -5,7 +5,7 @@ Project description
 ## Project initialisation steps:
 
 1. Initialize virtual environment.
-2. Install uv with conda
+2. Install poetry with conda
     ```
     conda install -y poetry
     ```
